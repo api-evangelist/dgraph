@@ -1,0 +1,58 @@
+aid: dgraph
+name: Dgraph
+description: "Distributed graph database with a native GraphQL API, automatic type enforcement, real-time subscriptions, horizontal scaling, and built-in authorization directives."
+type: Index
+image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+created: '2026-06-14'
+modified: '2026-06-14'
+url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/apis.yml
+specificationVersion: '0.19'
+tags:
+  - GraphQL
+  - Graph Database
+  - Distributed Database
+  - Real-Time
+  - Open Source
+  - Knowledge Graph
+apis:
+  - aid: dgraph:dgraph-graphql-api
+    name: Dgraph GraphQL API
+    description: "Native GraphQL API layer that auto-generates queries, mutations, and real-time subscriptions from a user-defined schema, backed by Dgraph's distributed graph engine."
+    humanURL: https://docs.dgraph.io/graphql/overview/
+    baseURL: https://cloud.dgraph.io
+    tags:
+      - GraphQL
+      - Graph Database
+      - Real-Time Subscriptions
+      - Schema-Driven
+    properties:
+      - type: Documentation
+        url: https://docs.dgraph.io/graphql/overview/
+      - type: GraphQL
+        url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/graphql/dgraph-graphql.md
+common:
+  - type: Website
+    url: https://site.dgraph.io/
+  - type: Documentation
+    url: https://docs.dgraph.io/
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/dgraph-labs
+  - type: GitHubOrganization
+    url: https://github.com/dgraph-io
+  - type: Blog
+    url: https://discuss.dgraph.io/c/blog/
+  - type: Pricing
+    url: https://site.dgraph.io/pricing
+  - type: Plans
+    url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/plans/dgraph-plans.md
+  - type: RateLimits
+    url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/rate-limits/dgraph-rate-limits.md
+  - type: FinOps
+    url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/finops/dgraph-finops.md
+  - type: CloudConsole
+    url: https://cloud.dgraph.io/
+  - type: Discuss
+    url: https://discuss.dgraph.io/
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
