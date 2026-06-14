@@ -1,0 +1,506 @@
+"""
+Dgraph GraphQL Built-in Schema Vocabulary
+Source: https://github.com/dgraph-io/dgraph/blob/main/graphql/schema/gqlschema.go
+License: Apache-2.0
+
+This file documents the built-in types, scalars, input types, enums, and
+directives that form Dgraph's GraphQL schema vocabulary. Users define their
+own application types in GraphQL SDL; Dgraph augments those definitions
+with this vocabulary and auto-generates CRUD queries, mutations, and
+subscriptions from the user schema.
+
+Endpoint: https://<your-backend>.us-west-2.aws.cloud.dgraph.io/graphql
+Admin:    https://<your-backend>.us-west-2.aws.cloud.dgraph.io/admin
+Docs:     https://docs.dgraph.io/graphql/
+"""
+
+# ---------------------------------------------------------------------------
+# Built-in Scalars
+# ---------------------------------------------------------------------------
+
+"""
+The Int64 scalar type represents a signed 64-bit numeric non-fractional value.
+Int64 can represent values in range [-(2^63),(2^63 - 1)].
+"""
+scalar Int64
+
+"""
+The DateTime scalar type represents date and time as a string in RFC3339 format.
+For example: "1985-04-12T23:20:50.52Z" represents 20 mins 50.52 secs after
+the 23rd hour of Apr 12th 1985 in UTC.
+"""
+scalar DateTime
+
+# ---------------------------------------------------------------------------
+# Built-in Geo Types
+# ---------------------------------------------------------------------------
+
+"""
+A geographic point with longitude and latitude coordinates.
+Used for geo-spatial search with @search(by: [geo]).
+"""
+type Point {
+  longitude: Float!
+  latitude: Float!
+}
+
+input PointRef {
+  longitude: Float!
+  latitude: Float!
+}
+
+"""A list of geographic points forming a line or ring."""
+type PointList {
+  points: [Point!]!
+}
+
+input PointListRef {
+  points: [PointRef!]!
+}
+
+"""A geographic polygon defined by a list of coordinate rings."""
+type Polygon {
+  coordinates: [PointList!]!
+}
+
+input PolygonRef {
+  coordinates: [PointListRef!]!
+}
+
+"""A collection of polygons."""
+type MultiPolygon {
+  polygons: [Polygon!]!
+}
+
+input MultiPolygonRef {
+  polygons: [PolygonRef!]!
+}
+
+# ---------------------------------------------------------------------------
+# Geo Filter Inputs
+# ---------------------------------------------------------------------------
+
+input NearFilter {
+  distance: Float!
+  coordinate: PointRef!
+}
+
+input WithinFilter {
+  polygon: PolygonRef!
+}
+
+input ContainsFilter {
+  point: PointRef
+  polygon: PolygonRef
+}
+
+input IntersectsFilter {
+  polygon: PolygonRef
+  multiPolygon: MultiPolygonRef
+}
+
+input PointGeoFilter {
+  near: NearFilter
+  within: WithinFilter
+}
+
+input PolygonGeoFilter {
+  near: NearFilter
+  within: WithinFilter
+  contains: ContainsFilter
+  intersects: IntersectsFilter
+}
+
+# ---------------------------------------------------------------------------
+# Scalar Filter Inputs
+# ---------------------------------------------------------------------------
+
+input IntRange {
+  min: Int!
+  max: Int!
+}
+
+input FloatRange {
+  min: Float!
+  max: Float!
+}
+
+input Int64Range {
+  min: Int64!
+  max: Int64!
+}
+
+input DateTimeRange {
+  min: DateTime!
+  max: DateTime!
+}
+
+input StringRange {
+  min: String!
+  max: String!
+}
+
+input IntFilter {
+  eq: Int
+  in: [Int]
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: IntRange
+}
+
+input Int64Filter {
+  eq: Int64
+  in: [Int64]
+  le: Int64
+  lt: Int64
+  ge: Int64
+  gt: Int64
+  between: Int64Range
+}
+
+input FloatFilter {
+  eq: Float
+  in: [Float]
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: FloatRange
+}
+
+input DateTimeFilter {
+  eq: DateTime
+  in: [DateTime]
+  le: DateTime
+  lt: DateTime
+  ge: DateTime
+  gt: DateTime
+  between: DateTimeRange
+}
+
+input StringTermFilter {
+  allofterms: String
+  anyofterms: String
+}
+
+input StringRegExpFilter {
+  regexp: String
+}
+
+input StringNgramFilter {
+  ngram: String
+}
+
+input StringFullTextFilter {
+  alloftext: String
+  anyoftext: String
+}
+
+input StringExactFilter {
+  eq: String
+  in: [String]
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  between: StringRange
+}
+
+input StringHashFilter {
+  eq: String
+  in: [String]
+}
+
+# ---------------------------------------------------------------------------
+# Enums
+# ---------------------------------------------------------------------------
+
+"""
+Index types supported by the @search directive.
+"""
+enum DgraphIndex {
+  int
+  int64
+  float
+  bool
+  hash
+  exact
+  term
+  fulltext
+  trigram
+  regexp
+  year
+  month
+  day
+  hour
+  geo
+  hnsw
+}
+
+enum HTTPMethod {
+  GET
+  POST
+  PUT
+  PATCH
+  DELETE
+}
+
+"""Execution mode for @custom HTTP resolvers."""
+enum Mode {
+  BATCH
+  SINGLE
+}
+
+# ---------------------------------------------------------------------------
+# Auth and Custom HTTP Inputs
+# ---------------------------------------------------------------------------
+
+"""
+Recursive rule structure for the @auth directive.
+Rules can be composed with and/or/not logic, or reference a raw DQL/JWT rule string.
+"""
+input AuthRule {
+  and: [AuthRule]
+  or:  [AuthRule]
+  not: AuthRule
+  rule: String
+}
+
+"""
+Configuration for a custom HTTP resolver attached via @custom(http: ...).
+"""
+input CustomHTTP {
+  url:                  String!
+  method:               HTTPMethod!
+  body:                 String
+  graphql:              String
+  mode:                 Mode
+  forwardHeaders:       [String!]
+  secretHeaders:        [String!]
+  introspectionHeaders: [String!]
+  skipIntrospection:    Boolean
+}
+
+"""Default value configuration for the @default directive."""
+input DgraphDefault {
+  value: String
+}
+
+# ---------------------------------------------------------------------------
+# Generate Control Inputs
+# ---------------------------------------------------------------------------
+
+"""
+Controls which auto-generated query operations are produced for a type.
+Used with the @generate directive.
+"""
+input GenerateQueryParams {
+  get:       Boolean
+  query:     Boolean
+  password:  Boolean
+  aggregate: Boolean
+}
+
+"""
+Controls which auto-generated mutation operations are produced for a type.
+Used with the @generate directive.
+"""
+input GenerateMutationParams {
+  add:    Boolean
+  update: Boolean
+  delete: Boolean
+}
+
+# ---------------------------------------------------------------------------
+# Apollo Federation Built-ins (when federation is enabled)
+# ---------------------------------------------------------------------------
+
+"""Opaque scalar for Apollo Federation entity representation."""
+scalar _Any
+
+"""Scalar for field set selections in Apollo Federation."""
+scalar _FieldSet
+
+"""Apollo Federation service SDL introspection type."""
+type _Service {
+  sdl: String
+}
+
+# ---------------------------------------------------------------------------
+# Directives
+# ---------------------------------------------------------------------------
+
+"""
+Creates a bi-directional edge between two types.
+field refers to the corresponding field on the related type.
+"""
+directive @hasInverse(field: String!) on FIELD_DEFINITION
+
+"""
+Enables search indexing on a field.
+by specifies one or more DgraphIndex values.
+"""
+directive @search(by: [String!]) on FIELD_DEFINITION
+
+"""
+Marks a field as a vector embedding for similarity search (HNSW index).
+"""
+directive @embedding on FIELD_DEFINITION
+
+"""
+Maps a GraphQL type or field directly to a Dgraph type or predicate.
+type: the Dgraph type name; pred: the predicate name.
+"""
+directive @dgraph(type: String, pred: String) on OBJECT | INTERFACE | FIELD_DEFINITION
+
+"""
+Marks a field as a unique identifier within the type.
+interface: when true, the uniqueness constraint spans the entire interface.
+"""
+directive @id(interface: Boolean) on FIELD_DEFINITION
+
+"""
+Sets a default value for a field on add and/or update mutations.
+"""
+directive @default(add: DgraphDefault, update: DgraphDefault) on FIELD_DEFINITION
+
+"""
+Enables real-time subscriptions on a type, interface, or field.
+"""
+directive @withSubscription on OBJECT | INTERFACE | FIELD_DEFINITION
+
+"""
+Stores a bcrypt-hashed password in a separate Dgraph predicate.
+field: the GraphQL field name; pred: the underlying Dgraph predicate.
+"""
+directive @secret(field: String!, pred: String) on OBJECT | INTERFACE
+
+"""
+Attaches row-level authorization rules to a type. Rules are evaluated
+using JWT claims and can restrict query, add, update, and delete operations.
+"""
+directive @auth(
+  password: AuthRule
+  query:    AuthRule
+  add:      AuthRule
+  update:   AuthRule
+  delete:   AuthRule
+) on OBJECT | INTERFACE
+
+"""
+Defines a custom resolver via HTTP (REST or GraphQL) or DQL.
+http: configuration for an HTTP endpoint resolver.
+dql: a DQL query string for a Dgraph-native custom resolver.
+"""
+directive @custom(http: CustomHTTP, dql: String) on FIELD_DEFINITION
+
+"""
+Marks a type, interface, union, input, or enum as remote — it is not stored
+in Dgraph but resolved from an external source via @custom.
+"""
+directive @remote on OBJECT | INTERFACE | UNION | INPUT_OBJECT | ENUM
+
+"""
+Renames the field in the external response when using @remote types.
+name: the field name in the remote response payload.
+"""
+directive @remoteResponse(name: String) on FIELD_DEFINITION
+
+"""
+Filters query results to nodes where all requested fields (or the listed
+fields) are non-null. Applied at query time, not schema definition time.
+"""
+directive @cascade(fields: [String]) on FIELD
+
+"""
+Resolves a field using a Dgraph Lambda (serverless JavaScript function).
+The Lambda URL is configured at the backend level.
+"""
+directive @lambda on FIELD_DEFINITION
+
+"""
+Triggers a Dgraph Lambda function when mutations occur on the type.
+add, update, delete: enable the trigger for the corresponding operation.
+"""
+directive @lambdaOnMutate(
+  add:    Boolean
+  update: Boolean
+  delete: Boolean
+) on OBJECT | INTERFACE
+
+"""
+Sets HTTP Cache-Control max-age on a query response.
+"""
+directive @cacheControl(maxAge: Int!) on QUERY
+
+"""
+Controls which CRUD operations Dgraph auto-generates for a type.
+query: tune get/query/password/aggregate; mutation: tune add/update/delete.
+subscription: enable/disable subscription generation.
+"""
+directive @generate(
+  query:        GenerateQueryParams
+  mutation:     GenerateMutationParams
+  subscription: Boolean
+) on OBJECT | INTERFACE
+
+# ---------------------------------------------------------------------------
+# Apollo Federation Directives (when federation is enabled)
+# ---------------------------------------------------------------------------
+
+"""Apollo Federation: marks the field(s) that uniquely identify an entity."""
+directive @key(fields: _FieldSet!) on OBJECT | INTERFACE
+
+"""Apollo Federation: marks a type as extending a type defined in another subgraph."""
+directive @extends on OBJECT | INTERFACE
+
+"""Apollo Federation: marks a field as defined in another subgraph."""
+directive @external on FIELD_DEFINITION
+
+"""Apollo Federation: specifies fields from another subgraph required to resolve this field."""
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+
+"""Apollo Federation: specifies fields on the return type that are resolved by this subgraph."""
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+
+# ---------------------------------------------------------------------------
+# Example: User-Defined Application Schema
+# ---------------------------------------------------------------------------
+#
+# Users define their own types in GraphQL SDL. Dgraph augments each type with
+# auto-generated queries, mutations, and subscriptions. Below is an example
+# showing common directive usage:
+#
+# type Author @withSubscription {
+#   id: ID!
+#   name: String! @search(by: [hash, fulltext])
+#   dob: DateTime
+#   country: String @search(by: [term])
+#   posts: [Post] @hasInverse(field: author)
+# }
+#
+# type Post @auth(
+#   query: { rule: "{ $USER: { eq: \"PUBLIC\" } }" }
+#   add:   { rule: "{ $isAuthor: { eq: \"true\" } }" }
+# ) {
+#   postID:    ID!
+#   title:     String! @search(by: [term, fulltext])
+#   text:      String  @search(by: [fulltext])
+#   location:  Point   @search(by: [geo])
+#   createdAt: DateTime
+#   author:    Author!
+# }
+#
+# Dgraph auto-generates for each type (e.g. Author):
+#   Query:
+#     getAuthor(id: ID!): Author
+#     queryAuthor(filter: AuthorFilter, order: AuthorOrder, first: Int, offset: Int): [Author]
+#     aggregateAuthor(filter: AuthorFilter): AuthorAggregateResult
+#   Mutation:
+#     addAuthor(input: [AddAuthorInput!]!, upsert: Boolean): AddAuthorPayload
+#     updateAuthor(input: UpdateAuthorInput!): UpdateAuthorPayload
+#     deleteAuthor(filter: AuthorFilter!): DeleteAuthorPayload
+#   Subscription:
+#     queryAuthor(filter: AuthorFilter, order: AuthorOrder, first: Int, offset: Int): [Author]
