@@ -2,7 +2,7 @@ aid: dgraph
 name: Dgraph
 description: "Distributed graph database with a native GraphQL API, automatic type enforcement, real-time subscriptions, horizontal scaling, and built-in authorization directives."
 type: Index
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 created: '2026-06-14'
 modified: '2026-06-14'
 url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/apis.yml
