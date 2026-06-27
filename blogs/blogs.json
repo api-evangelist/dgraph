@@ -1,0 +1,21 @@
+{
+  "repo": "dgraph",
+  "feeds": [
+    {
+      "source": "https://discuss.dgraph.io/c/blog/.rss",
+      "feed_url": "https://discuss.dgraph.io/c/blog/.rss",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://github.com/dgraph-io",
+      "feed_url": "https://github.com/dgraph-io",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "fetched": "2026-06-27T12:03:07Z",
+  "post_count": 11
+}
