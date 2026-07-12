@@ -31,6 +31,8 @@ apis:
       - type: GraphQL
         url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/graphql/dgraph-graphql.md
 common:
+  - type: DomainSecurity
+    url: security/dgraph-domain-security.yml
   - type: Website
     url: https://site.dgraph.io/
   - type: Documentation
