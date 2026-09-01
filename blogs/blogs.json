@@ -6,7 +6,9 @@
       "feed_url": "https://discuss.dgraph.io/c/blog/.rss",
       "title": "",
       "saved": 0,
-      "method": "feed"
+      "method": "feed",
+      "nature": "support-community",
+      "nature_basis": "discourse_topic"
     },
     {
       "source": "https://github.com/dgraph-io",
@@ -17,5 +19,8 @@
     }
   ],
   "fetched": "2026-08-30T22:33:40Z",
-  "post_count": 35
+  "post_count": 35,
+  "feed_nature": "support-community",
+  "feed_nature_basis": "discourse_topic",
+  "feed_nature_note": "Whether these posts are the vendor publishing or its support community, decided on the URL path grammar of the saved posts -- not the hostname, which carries both on Khoros, and not author diversity, which flags large vendor blogs as forums. 'undetermined' means undetermined."
 }
