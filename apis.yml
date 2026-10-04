@@ -29,12 +29,16 @@ created: '2026-06-14'
 modified: '2026-06-14'
 url: https://raw.githubusercontent.com/api-evangelist/dgraph/refs/heads/main/apis.yml
 specificationVersion: '0.23'
+x-docs-platform: docusaurus
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-09-25
+x-docs-hosting: cloudflare-pages
 tags:
   - GraphQL
   - Graph Database
   - Distributed Database
   - Real-Time
-  - Open-Source
+  - Open Source
   - Knowledge Graph
 tags_raw:
   - GraphQL
@@ -43,6 +47,7 @@ tags_raw:
   - Real-Time
   - Open Source
   - Knowledge Graph
+  - Open-Source
 apis:
   - aid: dgraph:dgraph-graphql-api
     name: Dgraph GraphQL API
