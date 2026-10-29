@@ -64,77 +64,93 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Dgraph is a distributed graph database with a native GraphQL API, automatic type enforcement, real-time subscriptions, horizontal scaling, and built-in authorization directives. It is the only open-source, complete graph database designed for terabyte-scale, real-time use cases.
+Distributed graph database with a native GraphQL API, automatic type enforcement, real-time subscriptions, horizontal scaling, and built-in authorization directives.
 
-Originally developed by Dgraph Labs and acquired by Hypermode in 2023, Dgraph was subsequently acquired by Istari Digital in October 2025. The project remains open-source under the Apache 2.0 license.
+**Areas:** GraphQL · Graph Database · Distributed Database · Real-Time · Open Source · Knowledge Graph
 
-## Key Features
+## Dgraph on APIs.io
 
-- **Native GraphQL:** Schema-driven API that auto-generates queries, mutations, and subscriptions — no resolver boilerplate required.
-- **Distributed Architecture:** Horizontal scaling via sharding and replication across Dgraph Alpha nodes, coordinated by Dgraph Zero.
-- **ACID Transactions:** Full ACID compliance with consistent replication and linearizable reads.
-- **Real-Time Subscriptions:** Native WebSocket subscriptions without additional infrastructure.
-- **Built-In Authorization:** Row-level security using `@auth` directives and JWT claims directly in the schema.
-- **DQL Access:** Low-level Dgraph Query Language (DQL) for advanced graph traversals beyond the GraphQL layer.
+Everything profiled for Dgraph is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/dgraph/](https://apis.io/providers/dgraph/)** — or go straight to one of the APIs or properties below.
 
-## Links
+### APIs (1)
 
-- **Website:** [https://site.dgraph.io/](https://site.dgraph.io/)
-- **Documentation:** [https://docs.dgraph.io/](https://docs.dgraph.io/)
-- **GitHub Organization:** [https://github.com/dgraph-io](https://github.com/dgraph-io)
-- **Cloud Console:** [https://cloud.dgraph.io/](https://cloud.dgraph.io/)
-- **Pricing:** [https://site.dgraph.io/pricing](https://site.dgraph.io/pricing)
-- **LinkedIn:** [https://www.linkedin.com/company/dgraph-labs](https://www.linkedin.com/company/dgraph-labs)
-- **Community:** [https://discuss.dgraph.io/](https://discuss.dgraph.io/)
+- [Dgraph GraphQL API](https://apis.io/apis/dgraph/dgraph-graphql-api/) — Native GraphQL API layer that auto-generates queries, mutations, and real-time subscriptions from a user-defined schema, backed by Dgraph's distributed…
 
-## APIs
+### Published properties
 
-| API | Description |
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### GraphQL (1)
+
+GraphQL schemas.
+
+- [Dgraph GraphQL API](https://apis.io/graphqls/dgraph/dgraph-graphql/)
+
+#### Security (1)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Dgraph Domain Security](https://apis.io/security/dgraph/dgraph-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://site.dgraph.io/)
+- [Documentation](https://docs.dgraph.io/)
+- [Pricing](https://site.dgraph.io/pricing)
+- [Blog](https://discuss.dgraph.io/c/blog/)
+- [GitHub](https://github.com/dgraph-io)
+
+## API Evangelist rating
+
+**Kin Score 16.9** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
 |---|---|
-| Dgraph GraphQL API | Native GraphQL layer with auto-generated CRUD operations, subscriptions, and authorization |
+| Discoverability | 57.1 |
+| Contract quality | 35.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 11.9 |
+| Access clarity | 5.3 |
 
-## Plans
+**Agent readiness 15.5** — agent-aware
 
-Dgraph Cloud offers three tiers:
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | — |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-| Plan | Cost | Notes |
-|---|---|---|
-| Free | $0/month | ~1 MB storage; dev/prototyping only |
-| Shared | ~$39.99/month | 5 GB data transfer included; shared HA cluster |
-| Dedicated | ~$199+/month/node | Single-tenant; ACLs, CDC, audit logging, 1 TB storage |
+**Regulatory alignment 5.9** — Horizontal (data, software, accessibility, platform)
 
-Self-hosted deployments are available via Docker or Helm charts with no licensing cost (Apache 2.0).
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/dgraph/](https://apis.io/providers/dgraph/).
 
-See [plans/dgraph-plans.md](plans/dgraph-plans.md) for full plan details.
+## How this profile is made
 
-## Rate Limits
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-Dgraph does not publish hard API rate limits. On shared cloud tiers, throughput is constrained by pooled cluster resources. On dedicated tiers and self-hosted deployments, limits are governed by node capacity and operator-configured flags such as `--query-edge-limit` and `--query-timeout`.
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Dgraph: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-See [rate-limits/dgraph-rate-limits.md](rate-limits/dgraph-rate-limits.md) for details.
+## Open an issue
 
-## FinOps
-
-Key cost drivers are compute (node count), data transfer (shared tier: $2/GB over 5 GB/month), and storage (up to 1 TB/node on dedicated). Self-hosted deployments shift costs to infrastructure and operational overhead.
-
-See [finops/dgraph-finops.md](finops/dgraph-finops.md) for cost optimization strategies and budget estimates.
-
-## Repository Structure
-
-```
-dgraph/
-  apis.yml                        - APIs.json 0.19 catalog entry
-  README.md                       - This file
-  graphql/
-    dgraph-graphql.md             - Dgraph GraphQL API reference
-  plans/
-    dgraph-plans.md               - Pricing plan details
-  rate-limits/
-    dgraph-rate-limits.md         - Rate limit documentation
-  finops/
-    dgraph-finops.md              - Cost management guidance
-```
-
-## Maintainer
-
-Kin Lane — kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/dgraph/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
